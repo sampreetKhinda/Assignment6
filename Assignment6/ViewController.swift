@@ -11,8 +11,7 @@ class ViewController: UIViewController ,
                       UITableViewDataSource, UITableViewDelegate {
   
     @IBOutlet weak var toDoTable: UITableView!
-    var citys = ["calgary","halifax","montreal","toronto","vancouver","winnipeg",
-                 "calgary","halifax","Sampreet"]
+    var citys = ["Submit IOS assignment","Attend lecture at 4pm", "Go to Gym", "Purchase groccery for March"]
    
     private let KeySelectedValues = "KeySelectedIndexes"
     private let FirstTimeValue = "FirstTime"
@@ -58,7 +57,6 @@ class ViewController: UIViewController ,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let _selectedValueList = citys
         
         toDoTable.delegate = self
         toDoTable.dataSource = self
@@ -71,6 +69,21 @@ class ViewController: UIViewController ,
         } else {
             self.citys = UserDefaults.standard.object(forKey: KeySelectedValues) as! [String]
         }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
+    {
+        if editingStyle == .delete {
+                    // Delete the row from the data source
+                    citys.remove(at: indexPath.row)
+                    UserDefaults.standard.set(self.citys, forKey: self.KeySelectedValues)
+                    // Then, delete the row from the table itself
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+            }
     }
 }
 
