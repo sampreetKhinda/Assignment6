@@ -11,7 +11,7 @@ class ViewController: UIViewController ,
                       UITableViewDataSource, UITableViewDelegate {
   
     @IBOutlet weak var toDoTable: UITableView!
-    var citys = ["Submit IOS assignment","Attend lecture at 4pm", "Go to Gym", "Purchase groccery for March"]
+    var taskArr = ["Submit IOS assignment","Attend lecture at 4pm", "Go to Gym", "Purchase groccery for March"]
    
     private let KeySelectedValues = "KeySelectedIndexes"
     private let FirstTimeValue = "FirstTime"
@@ -22,12 +22,12 @@ class ViewController: UIViewController ,
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return citys.count
+        return taskArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = toDoTable.dequeueReusableCell(withIdentifier: "ToDoCell", for: indexPath)
-              cell.textLabel?.text = citys[indexPath.row]
+              cell.textLabel?.text = taskArr[indexPath.row]
         return cell
     }
     
@@ -42,8 +42,8 @@ class ViewController: UIViewController ,
         
         let addItem = UIAlertAction(title: "Ok", style: .default) { action in
             if !String(textField.text!).isEmpty {
-                self.citys.append(String(textField.text!))
-                UserDefaults.standard.set(self.citys, forKey: self.KeySelectedValues)
+                self.taskArr.append(String(textField.text!))
+                UserDefaults.standard.set(self.taskArr, forKey: self.KeySelectedValues)
                 self.toDoTable.reloadData()
             }
         }
@@ -65,9 +65,9 @@ class ViewController: UIViewController ,
         
         if(isFirstTime){
             UserDefaults.standard.set(false, forKey: FirstTimeValue)
-            UserDefaults.standard.set(self.citys, forKey: KeySelectedValues)
+            UserDefaults.standard.set(self.taskArr, forKey: KeySelectedValues)
         } else {
-            self.citys = UserDefaults.standard.object(forKey: KeySelectedValues) as! [String]
+            self.taskArr = UserDefaults.standard.object(forKey: KeySelectedValues) as! [String]
         }
     }
     
@@ -79,8 +79,8 @@ class ViewController: UIViewController ,
     {
         if editingStyle == .delete {
                     // Delete the row from the data source
-                    citys.remove(at: indexPath.row)
-                    UserDefaults.standard.set(self.citys, forKey: self.KeySelectedValues)
+                    taskArr.remove(at: indexPath.row)
+                    UserDefaults.standard.set(self.taskArr, forKey: self.KeySelectedValues)
                     // Then, delete the row from the table itself
                     tableView.deleteRows(at: [indexPath], with: .fade)
             }
